@@ -32,6 +32,7 @@ def register_extensions(app):
 
     """
 
+    app = extensions.create_admin(app)
     extensions.db.init_app(app)
     extensions.jwt.init_app(app)
 
@@ -45,3 +46,8 @@ def register_blueprints(app):
     """
     app.register_blueprint(users.blueprint)
     app.register_blueprint(beers.blueprint)
+
+    # Simple page to get to admin
+    @app.route('/')
+    def index():
+        return '<a href="/admin/">Click me to get to Admin!</a>'

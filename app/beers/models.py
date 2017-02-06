@@ -1,5 +1,8 @@
 from app.extensions import db
 
+class BeerImage(db.Document):
+    name = db.StringField(required=True, unique=True)
+    image = db.ImageField(thumbnail_size=(100, 100, True))
 
 class Beer(db.Document):
 
@@ -9,7 +12,7 @@ class Beer(db.Document):
     description = db.StringField()
     abv = db.FloatField()
     floor = db.IntField()
-    image = db.StringField()
+    image = db.ReferenceField(BeerImage, required=True)
     active = db.BooleanField(required=True)
 
     def to_json2(self):
@@ -24,5 +27,4 @@ class Beer(db.Document):
             'description': self.description,
             'abv': self.abv,
             'floor': self.floor,
-            'image': self.image
         }
