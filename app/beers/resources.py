@@ -64,8 +64,6 @@ class BeersAPI(Resource):
         abv, floor = args['abv'], args['floor']
         image, active = args['image'], args['active']
 
-        print image
-
         return controllers.create_or_update_beer(
             name, description, abv, floor, image, active)
 
@@ -90,8 +88,6 @@ class BeerAPI(Resource):
         abv, floor = args['abv'], args['floor']
         image, active = args['image'], args['active']
         beer_id = args['beer_id']
-        print abv
-        print args['abv']
 
         return controllers.create_or_update_beer(
             name, description, abv, floor, image, active, beer_id)
