@@ -1,5 +1,5 @@
-import collections
-import json
+# import collections
+# import json
 import pytest
 from passlib.hash import sha256_crypt, sha512_crypt
 from app import helpers
@@ -18,43 +18,43 @@ get_hash_algorithm_error_scenarios = [
 standardize_api_response_valid_scenarios = [
     [
         lambda response: {'success': response},
-        (json.dumps(collections.OrderedDict([
-            ('status_code', 200),
-            ('description', 'Successful Operation'),
-            ('data', 'foo'),
-            ])), 200)
+        ({
+            'data': 'foo',
+            'description': 'Successful Operation',
+            'status_code': 200,
+        }, 200)
     ],
     [
         lambda response: {'error': response},
-        (json.dumps(collections.OrderedDict([
-            ('status_code', 400),
-            ('error', 'Bad Request'),
-            ('data', 'foo'),
-            ])), 400)
+        ({
+            'data': 'foo',
+            'error': 'Bad Request',
+            'status_code': 400,
+        }, 400)
     ],
     [
         lambda response: {'created': response},
-        (json.dumps(collections.OrderedDict([
-            ('status_code', 201),
-            ('description', 'Successfully created'),
-            ('data', 'foo'),
-            ])), 201)
+        ({
+            'data': 'foo',
+            'description': 'Successfully created',
+            'status_code': 201,
+        }, 201)
     ],
     [
         lambda response: {'updated': response},
-        (json.dumps(collections.OrderedDict([
-            ('status_code', 200),
-            ('description', 'Successfully updated'),
-            ('data', 'foo'),
-            ])), 200)
+        ({
+            'data': 'foo',
+            'description': 'Successfully updated',
+            'status_code': 200,
+        }, 200)
     ],
     [
         lambda response: {'no-data': response},
-        (json.dumps(collections.OrderedDict([
-            ('status_code', 204),
-            ('description', ''),
-            ('data', ''),
-            ])), 204)
+        ({
+            'data': '',
+            'description': '',
+            'status_code': 204,
+        }, 204)
     ]
 ]
 

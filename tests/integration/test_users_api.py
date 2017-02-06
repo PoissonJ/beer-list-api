@@ -28,7 +28,6 @@ def test_get_users_without_username(client, mock_user):
 
     response = json.loads(jrequest(
         'GET', '/api/users', client, jwt_header).data.decode('utf-8'))
-    response = json.loads(response)
 
     expected = {
         'status_code': 200,
@@ -49,7 +48,6 @@ def test_get_users_specifing_username(client, mock_user):
 
     response = json.loads(jrequest(
         'GET', '/api/users', client, jwt_header).data.decode('utf-8'))
-    response = json.loads(response)
 
     expected = {
         'status_code': 200,
@@ -72,12 +70,11 @@ def test_create_an_user_invalid_username(client, mock_user):
     payload = json.dumps({'username': user.username, 'password': 'foo'})
     response = jrequest('POST', '/api/users', client, jwt_header, data=payload)
     response = json.loads(response.data.decode('utf-8'))
-    response = json.loads(response)
 
     expected = {
-        'status_code': 400,
-        'data': "The user {!r} already exists.".format(user.username),
-        'error': 'Bad Request'
+        u'status_code': 400,
+        u'data': u"The user 'user' already exists.",
+        u'error': u'Bad Request'
     }
 
     assert sorted(response.items()) == sorted(expected.items())
@@ -92,7 +89,6 @@ def test_create_an_user_valid_username(client, mock_user):
     payload = json.dumps({'username': 'valid', 'password': 'valid'})
     response = jrequest('POST', '/api/users', client, jwt_header, data=payload)
     response = json.loads(response.data.decode('utf-8'))
-    response = json.loads(response)
 
     expected = {
         'status_code': 201,
@@ -121,11 +117,10 @@ def test_update_an_user_invalid_username(client, mock_user):
 
     response = jrequest('PUT', '/api/user', client, jwt_header, data=payload)
     response = json.loads(response.data.decode('utf-8'))
-    response = json.loads(response)
 
     expected = {
         'status_code': 400,
-        'data': "The user {!r} already exists.".format(user_to_test.username),
+        'data': "The user 'user' already exists.",
         'error': 'Bad Request'
     }
 
@@ -146,7 +141,6 @@ def test_update_an_user_valid_username(client, mock_user):
 
     response = jrequest('PUT', '/api/user', client, jwt_header, data=payload)
     response = json.loads(response.data.decode('utf-8'))
-    response = json.loads(response)
 
     expected = {
         'status_code': 200,
@@ -167,7 +161,6 @@ def test_delete_an_user_invalid_user_id(client, mock_user):
     response = jrequest(
         'DELETE', '/api/user/{}'.format(ObjectId()), client, jwt_header)
     response = json.loads(response.data.decode('utf-8'))
-    response = json.loads(response)
 
     expected = {
         'status_code': 400,
@@ -190,7 +183,6 @@ def test_delete_an_user_valid_user_id(client, mock_user):
     response = jrequest(
         'DELETE', '/api/user/{}'.format(user_to_delete.id), client, jwt_header)
     response = json.loads(response.data.decode('utf-8'))
-    response = json.loads(response)
 
     expected = {
         'status_code': 200,

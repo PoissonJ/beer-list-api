@@ -16,6 +16,7 @@ def test_is_an_available_username_with_unavailable_user(app, mock_user):
 
 
 def test_get_users_no_data(app):
+    clear_db()
     assert controllers.get_users() == {'no-data': ''}
 
 

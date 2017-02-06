@@ -35,7 +35,7 @@ class UsersAPI(Resource):
 
         return parse
 
-    # @jwt_required()
+    @jwt_required()
     @helpers.standardize_api_response
     def get(self, username=None):
         """HTTP GET. Get one or all users.
@@ -47,7 +47,7 @@ class UsersAPI(Resource):
 
         return controllers.get_users(username)
 
-    # @jwt_required()
+    @jwt_required()
     @helpers.standardize_api_response
     def post(self):
         """HTTP POST. Create an user.
@@ -61,7 +61,6 @@ class UsersAPI(Resource):
         parse = post_put_parser()
         args = parse.parse_args()
         username, password = args['username'], args['password']
-        print 'hi'
 
         return controllers.create_or_update_user(username, password)
 
@@ -70,7 +69,7 @@ class UserAPI(Resource):
 
     """An API to update or delete an user. """
 
-    # @jwt_required()
+    @jwt_required()
     @helpers.standardize_api_response
     def put(self):
         """HTTP PUT. Update an user.
@@ -87,7 +86,7 @@ class UserAPI(Resource):
 
         return controllers.create_or_update_user(username, password, user_id)
 
-    # @jwt_required()
+    @jwt_required()
     @helpers.standardize_api_response
     def delete(self, user_id):
         """HTTP DELETE. Delete an user.
