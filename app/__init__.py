@@ -1,5 +1,5 @@
 import flask
-from . import extensions, config, users
+from . import extensions, config, users, beers
 from .auth import jwt
 
 
@@ -44,3 +44,4 @@ def register_blueprints(app):
 
     """
     app.register_blueprint(users.blueprint)
+    app.register_blueprint(beers.blueprint)

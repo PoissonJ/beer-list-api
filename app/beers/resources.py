@@ -15,9 +15,9 @@ def post_put_parser():
     parse.add_argument(
         'description', type=str, location='json', required=True)
     parse.add_argument(
-        'abv', type=int, location='json', required=True)
+        'abv', type=float, location='json', required=True)
     parse.add_argument(
-        'floow', type=int, location='json', required=True)
+        'floor', type=int, location='json', required=True)
     parse.add_argument(
         'image', type=str, location='json', required=True)
     parse.add_argument(
@@ -30,6 +30,7 @@ class BeersAPI(Resource):
 
     """An API to get or create Beers."""
 
+    @jwt_required()
     @helpers.standardize_api_response
     def get(self, name=None):
         """HTTP GET. Get one or all beers.
@@ -58,10 +59,12 @@ class BeersAPI(Resource):
 
         parse = post_put_parser()
         args = parse.parse_args()
-        
+
         name, description = args['name'], args['description']
         abv, floor = args['abv'], args['floor']
         image, active = args['image'], args['active']
+
+        print image
 
         return controllers.create_or_update_beer(
             name, description, abv, floor, image, active)
@@ -87,6 +90,8 @@ class BeerAPI(Resource):
         abv, floor = args['abv'], args['floor']
         image, active = args['image'], args['active']
         beer_id = args['beer_id']
+        print abv
+        print args['abv']
 
         return controllers.create_or_update_beer(
             name, description, abv, floor, image, active, beer_id)
