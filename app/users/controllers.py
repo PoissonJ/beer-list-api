@@ -37,6 +37,14 @@ def create_or_update_user(username, password, user_id=None):
     :returns: a dict with the operation result
 
     """
+    # Creating a new user
+    if not user_id:
+        # Prevenent creation if already a user
+        # Current small workaround. Need a role mechanism
+        if models.User.objects.count() > 0:
+            return {'error': 'Not accepting users at this time'}
+        
+        
 
     if is_an_available_username(username) is False:
         return {'error': 'The user {!r} already exists.'.format(username)}

@@ -47,7 +47,7 @@ class UsersAPI(Resource):
 
         return controllers.get_users(username)
 
-    @jwt_required()
+    # @jwt_required()
     @helpers.standardize_api_response
     def post(self):
         """HTTP POST. Create an user.
