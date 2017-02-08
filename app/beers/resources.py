@@ -30,7 +30,7 @@ class BeersAPI(Resource):
 
     """An API to get or create Beers."""
 
-    @jwt_required()
+    # @jwt_required()
     @helpers.standardize_api_response
     def get(self, name=None):
         """HTTP GET. Get one or all beers.
@@ -42,7 +42,7 @@ class BeersAPI(Resource):
 
         return controllers.get_beers(name)
 
-    # @jwt_required()
+    @jwt_required()
     @helpers.standardize_api_response
     def post(self):
         """HTTP POST. Create a beer.
@@ -72,7 +72,7 @@ class BeerAPI(Resource):
 
     """An API to update or delete a beer. """
 
-    # @jwt_required()
+    @jwt_required()
     @helpers.standardize_api_response
     def put(self):
         """HTTP PUT. Update a beer.
@@ -92,7 +92,7 @@ class BeerAPI(Resource):
         return controllers.create_or_update_beer(
             name, description, abv, floor, image, active, beer_id)
 
-    # @jwt_required()
+    @jwt_required()
     @helpers.standardize_api_response
     def delete(self, beer_id):
         """HTTP DELETE. Delete a beer.
