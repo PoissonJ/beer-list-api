@@ -1,0 +1,177 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>app.beers.controllers &#8212; app  documentation</title>
+    
+    <link rel="stylesheet" href="../../../_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../../',
+        VERSION:     '',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
+      };
+    </script>
+    <script type="text/javascript" src="../../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../../_static/doctools.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+   
+  <link rel="stylesheet" href="../../../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body role="document">
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <h1>Source code for app.beers.controllers</h1><div class="highlight"><pre>
+<span></span><span class="kn">from</span> <span class="nn">app</span> <span class="k">import</span> <span class="n">helpers</span>
+<span class="kn">from</span> <span class="nn">.</span> <span class="k">import</span> <span class="n">models</span>
+
+
+<div class="viewcode-block" id="is_an_available_beer"><a class="viewcode-back" href="../../../app.beers.html#app.beers.controllers.is_an_available_beer">[docs]</a><span class="k">def</span> <span class="nf">is_an_available_beer</span><span class="p">(</span><span class="n">name</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Verify if a beer is available.</span>
+
+<span class="sd">    :username: a string object</span>
+<span class="sd">    :returns: True or False</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">models</span><span class="o">.</span><span class="n">Beer</span><span class="o">.</span><span class="n">objects</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="n">name</span><span class="p">)</span><span class="o">.</span><span class="n">first</span><span class="p">()</span> <span class="ow">is</span> <span class="kc">None</span></div>
+
+
+<div class="viewcode-block" id="get_beers"><a class="viewcode-back" href="../../../app.beers.html#app.beers.controllers.get_beers">[docs]</a><span class="k">def</span> <span class="nf">get_beers</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Get all beers info.</span>
+
+<span class="sd">    :returns: a dict with the operation result</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">query</span> <span class="o">=</span> <span class="p">{}</span> <span class="k">if</span> <span class="ow">not</span> <span class="n">name</span> <span class="k">else</span> <span class="p">{</span><span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="n">name</span><span class="p">}</span>
+    <span class="n">beers</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">Beer</span><span class="o">.</span><span class="n">objects</span><span class="p">(</span><span class="o">**</span><span class="n">query</span><span class="p">)</span><span class="o">.</span><span class="n">all</span><span class="p">()</span>
+
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">beers</span><span class="p">:</span>
+        <span class="k">return</span> <span class="p">{</span><span class="s1">&#39;no-data&#39;</span><span class="p">:</span> <span class="s1">&#39;&#39;</span><span class="p">}</span>
+
+    <span class="k">return</span> <span class="p">{</span><span class="s1">&#39;success&#39;</span><span class="p">:</span> <span class="p">[</span><span class="n">b</span><span class="o">.</span><span class="n">to_json2</span><span class="p">()</span> <span class="k">for</span> <span class="n">b</span> <span class="ow">in</span> <span class="n">beers</span><span class="p">]}</span></div>
+
+
+<div class="viewcode-block" id="create_or_update_beer"><a class="viewcode-back" href="../../../app.beers.html#app.beers.controllers.create_or_update_beer">[docs]</a><span class="k">def</span> <span class="nf">create_or_update_beer</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">description</span><span class="p">,</span> <span class="n">abv</span><span class="p">,</span>
+    <span class="n">floor</span><span class="p">,</span> <span class="n">image</span><span class="p">,</span> <span class="n">active</span><span class="p">,</span> <span class="n">beer_id</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Creates or updates a beer.</span>
+
+<span class="sd">    :name: a string object</span>
+<span class="sd">    :description: a string object</span>
+<span class="sd">    :abv: an int object</span>
+<span class="sd">    :floor: an int object</span>
+<span class="sd">    :image: a string object. Name of the image file on the server</span>
+<span class="sd">    :active: a bool object.</span>
+<span class="sd">    :beer_id: a str object. Indicates an update.</span>
+
+<span class="sd">    :returns: a dict with the operation result</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="c1"># Need to enforce uniqueness on the name of a beer.</span>
+    <span class="c1"># Can either do that in another function or here</span>
+
+    <span class="c1"># if is_an_available_beer(name) is False:</span>
+    <span class="c1">#     return {&#39;error&#39;: &#39;The beer {!r} already exists.&#39;.format(username)}</span>
+
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">query</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;id&#39;</span><span class="p">:</span> <span class="n">beer_id</span><span class="p">}</span> <span class="k">if</span> <span class="n">beer_id</span> <span class="k">else</span> <span class="p">{</span><span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="n">name</span><span class="p">}</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">Beer</span><span class="o">.</span><span class="n">objects</span><span class="p">(</span><span class="o">**</span><span class="n">query</span><span class="p">)</span><span class="o">.</span><span class="n">update</span><span class="p">(</span>
+            <span class="n">set__name</span><span class="o">=</span><span class="n">name</span><span class="p">,</span>
+            <span class="n">set__description</span><span class="o">=</span><span class="n">description</span><span class="p">,</span>
+            <span class="n">set__abv</span><span class="o">=</span><span class="n">abv</span><span class="p">,</span>
+            <span class="n">set__floor</span><span class="o">=</span><span class="n">floor</span><span class="p">,</span>
+            <span class="n">set__image</span><span class="o">=</span><span class="n">image</span><span class="p">,</span>
+            <span class="n">set__active</span><span class="o">=</span><span class="n">active</span><span class="p">,</span>
+            <span class="n">upsert</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+            <span class="n">full_result</span><span class="o">=</span><span class="kc">True</span>
+        <span class="p">)</span>
+    <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+        <span class="k">return</span> <span class="p">{</span><span class="s1">&#39;error&#39;</span><span class="p">:</span> <span class="s1">&#39;Error during the operation: </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">e</span><span class="p">)}</span>
+
+    <span class="k">if</span> <span class="n">result</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;updatedExisting&#39;</span><span class="p">)</span> <span class="ow">is</span> <span class="kc">False</span><span class="p">:</span>
+        <span class="k">return</span> <span class="p">{</span><span class="s1">&#39;created&#39;</span><span class="p">:</span> <span class="s1">&#39;Created the beer </span><span class="si">{!r}</span><span class="s1">.&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">name</span><span class="p">)}</span>
+
+    <span class="k">return</span> <span class="p">{</span><span class="s1">&#39;updated&#39;</span><span class="p">:</span> <span class="s1">&#39;Updated the beer </span><span class="si">{!r}</span><span class="s1">.&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">name</span><span class="p">)}</span></div>
+
+
+<div class="viewcode-block" id="delete_beer"><a class="viewcode-back" href="../../../app.beers.html#app.beers.controllers.delete_beer">[docs]</a><span class="k">def</span> <span class="nf">delete_beer</span><span class="p">(</span><span class="n">beer_id</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Delete a beer by beer id.</span>
+
+<span class="sd">    :beere_id: a str object</span>
+<span class="sd">    :returns: a dict with the operation result</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">beer</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">Beer</span><span class="o">.</span><span class="n">objects</span><span class="p">(</span><span class="nb">id</span><span class="o">=</span><span class="n">beer_id</span><span class="p">)</span><span class="o">.</span><span class="n">first</span><span class="p">()</span>
+
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">beer</span><span class="p">:</span>
+        <span class="k">return</span> <span class="p">{</span><span class="s1">&#39;error&#39;</span><span class="p">:</span> <span class="s1">&#39;Invalid beer id.&#39;</span><span class="p">}</span>
+
+    <span class="n">beer</span><span class="o">.</span><span class="n">delete</span><span class="p">()</span>
+    <span class="k">return</span> <span class="p">{</span><span class="s1">&#39;deleted&#39;</span><span class="p">:</span> <span class="s1">&#39;Beer deleted&#39;</span><span class="p">}</span></div>
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper"><div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../../../index.html">Documentation overview</a><ul>
+  <li><a href="../../index.html">Module code</a><ul>
+  <li><a href="../../app.html">app</a><ul>
+  </ul></li>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../../../search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2017, Beer List Api.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.5.2</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.9</a>
+      
+    </div>
+
+    
+
+    
+  </body>
+</html>

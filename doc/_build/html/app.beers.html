@@ -1,0 +1,484 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>app.beers package &#8212; app  documentation</title>
+    
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="app.config package" href="app.config.html" />
+    <link rel="prev" title="app.auth package" href="app.auth.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body role="document">
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="app-beers-package">
+<h1>app.beers package<a class="headerlink" href="#app-beers-package" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="module-app.beers.controllers">
+<span id="app-beers-controllers-module"></span><h2>app.beers.controllers module<a class="headerlink" href="#module-app.beers.controllers" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="app.beers.controllers.create_or_update_beer">
+<code class="descclassname">app.beers.controllers.</code><code class="descname">create_or_update_beer</code><span class="sig-paren">(</span><em>name</em>, <em>description</em>, <em>abv</em>, <em>floor</em>, <em>image</em>, <em>active</em>, <em>beer_id=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/app/beers/controllers.html#create_or_update_beer"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#app.beers.controllers.create_or_update_beer" title="Permalink to this definition">¶</a></dt>
+<dd><p>Creates or updates a beer.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Name:</th><td class="field-body">a string object</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Description:</th><td class="field-body">a string object</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Abv:</th><td class="field-body">an int object</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Floor:</th><td class="field-body">an int object</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Image:</th><td class="field-body">a string object. Name of the image file on the server</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Active:</th><td class="field-body">a bool object.</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Beer_id:</th><td class="field-body">a str object. Indicates an update.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">a dict with the operation result</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="app.beers.controllers.delete_beer">
+<code class="descclassname">app.beers.controllers.</code><code class="descname">delete_beer</code><span class="sig-paren">(</span><em>beer_id</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/app/beers/controllers.html#delete_beer"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#app.beers.controllers.delete_beer" title="Permalink to this definition">¶</a></dt>
+<dd><p>Delete a beer by beer id.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Beere_id:</th><td class="field-body">a str object</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">a dict with the operation result</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="app.beers.controllers.get_beers">
+<code class="descclassname">app.beers.controllers.</code><code class="descname">get_beers</code><span class="sig-paren">(</span><em>name=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/app/beers/controllers.html#get_beers"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#app.beers.controllers.get_beers" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get all beers info.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">a dict with the operation result</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="app.beers.controllers.is_an_available_beer">
+<code class="descclassname">app.beers.controllers.</code><code class="descname">is_an_available_beer</code><span class="sig-paren">(</span><em>name</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/app/beers/controllers.html#is_an_available_beer"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#app.beers.controllers.is_an_available_beer" title="Permalink to this definition">¶</a></dt>
+<dd><p>Verify if a beer is available.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Username:</th><td class="field-body">a string object</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">True or False</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+<div class="section" id="module-app.beers.models">
+<span id="app-beers-models-module"></span><h2>app.beers.models module<a class="headerlink" href="#module-app.beers.models" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="app.beers.models.Beer">
+<em class="property">class </em><code class="descclassname">app.beers.models.</code><code class="descname">Beer</code><span class="sig-paren">(</span><em>*args</em>, <em>**values</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/app/beers/models.html#Beer"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#app.beers.models.Beer" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">flask_mongoengine.Document</span></code></p>
+<p>Beer model</p>
+<dl class="exception">
+<dt id="app.beers.models.Beer.DoesNotExist">
+<em class="property">exception </em><code class="descname">DoesNotExist</code><a class="headerlink" href="#app.beers.models.Beer.DoesNotExist" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">mongoengine.errors.DoesNotExist</span></code></p>
+</dd></dl>
+
+<dl class="exception">
+<dt id="app.beers.models.Beer.MultipleObjectsReturned">
+<em class="property">exception </em><code class="descclassname">Beer.</code><code class="descname">MultipleObjectsReturned</code><a class="headerlink" href="#app.beers.models.Beer.MultipleObjectsReturned" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">mongoengine.errors.MultipleObjectsReturned</span></code></p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="app.beers.models.Beer.abv">
+<code class="descclassname">Beer.</code><code class="descname">abv</code><a class="headerlink" href="#app.beers.models.Beer.abv" title="Permalink to this definition">¶</a></dt>
+<dd><p>Floating point number field.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="app.beers.models.Beer.active">
+<code class="descclassname">Beer.</code><code class="descname">active</code><a class="headerlink" href="#app.beers.models.Beer.active" title="Permalink to this definition">¶</a></dt>
+<dd><p>Boolean field type.</p>
+<div class="versionadded">
+<p><span class="versionmodified">New in version 0.1.2.</span></p>
+</div>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="app.beers.models.Beer.description">
+<code class="descclassname">Beer.</code><code class="descname">description</code><a class="headerlink" href="#app.beers.models.Beer.description" title="Permalink to this definition">¶</a></dt>
+<dd><p>A unicode string field.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="app.beers.models.Beer.floor">
+<code class="descclassname">Beer.</code><code class="descname">floor</code><a class="headerlink" href="#app.beers.models.Beer.floor" title="Permalink to this definition">¶</a></dt>
+<dd><p>32-bit integer field.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="app.beers.models.Beer.id">
+<code class="descclassname">Beer.</code><code class="descname">id</code><a class="headerlink" href="#app.beers.models.Beer.id" title="Permalink to this definition">¶</a></dt>
+<dd><p>A field wrapper around MongoDB&#8217;s ObjectIds.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="app.beers.models.Beer.image">
+<code class="descclassname">Beer.</code><code class="descname">image</code><a class="headerlink" href="#app.beers.models.Beer.image" title="Permalink to this definition">¶</a></dt>
+<dd><p>A reference to a document that will be automatically dereferenced on
+access (lazily).</p>
+<p>Use the <cite>reverse_delete_rule</cite> to handle what should happen if the document
+the field is referencing is deleted.  EmbeddedDocuments, DictFields and
+MapFields does not support reverse_delete_rule and an <cite>InvalidDocumentError</cite>
+will be raised if trying to set on one of these Document / Field types.</p>
+<p>The options are:</p>
+<blockquote>
+<div><ul class="simple">
+<li>DO_NOTHING (0)  - don&#8217;t do anything (default).</li>
+<li>NULLIFY    (1)  - Updates the reference to null.</li>
+<li>CASCADE    (2)  - Deletes the documents associated with the reference.</li>
+<li>DENY       (3)  - Prevent the deletion of the reference object.</li>
+<li>PULL       (4)  - Pull the reference from a <code class="xref py py-class docutils literal"><span class="pre">ListField</span></code> of references</li>
+</ul>
+</div></blockquote>
+<p>Alternative syntax for registering delete rules (useful when implementing
+bi-directional delete rules)</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Bar</span><span class="p">(</span><span class="n">Document</span><span class="p">):</span>
+    <span class="n">content</span> <span class="o">=</span> <span class="n">StringField</span><span class="p">()</span>
+    <span class="n">foo</span> <span class="o">=</span> <span class="n">ReferenceField</span><span class="p">(</span><span class="s1">&#39;Foo&#39;</span><span class="p">)</span>
+
+<span class="n">Foo</span><span class="o">.</span><span class="n">register_delete_rule</span><span class="p">(</span><span class="n">Bar</span><span class="p">,</span> <span class="s1">&#39;foo&#39;</span><span class="p">,</span> <span class="n">NULLIFY</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last"><cite>reverse_delete_rule</cite> does not trigger pre / post delete signals to be
+triggered.</p>
+</div>
+<div class="versionchanged">
+<p><span class="versionmodified">Changed in version 0.5: </span>added <cite>reverse_delete_rule</cite></p>
+</div>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="app.beers.models.Beer.name">
+<code class="descclassname">Beer.</code><code class="descname">name</code><a class="headerlink" href="#app.beers.models.Beer.name" title="Permalink to this definition">¶</a></dt>
+<dd><p>A unicode string field.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="app.beers.models.Beer.objects">
+<code class="descclassname">Beer.</code><code class="descname">objects</code><a class="headerlink" href="#app.beers.models.Beer.objects" title="Permalink to this definition">¶</a></dt>
+<dd><p>The default QuerySet Manager.</p>
+<p>Custom QuerySet Manager functions can extend this class and users can
+add extra queryset functionality.  Any custom manager methods must accept a
+<code class="xref py py-class docutils literal"><span class="pre">Document</span></code> class as its first argument, and a
+<code class="xref py py-class docutils literal"><span class="pre">QuerySet</span></code> as its second argument.</p>
+<p>The method function should return a <code class="xref py py-class docutils literal"><span class="pre">QuerySet</span></code>
+, probably the same one that was passed in, but modified in some way.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="app.beers.models.Beer.to_json2">
+<code class="descclassname">Beer.</code><code class="descname">to_json2</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/app/beers/models.html#Beer.to_json2"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#app.beers.models.Beer.to_json2" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns a json representantion of the beer.
+:returns: a json object.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="app.beers.models.BeerImage">
+<em class="property">class </em><code class="descclassname">app.beers.models.</code><code class="descname">BeerImage</code><span class="sig-paren">(</span><em>*args</em>, <em>**values</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/app/beers/models.html#BeerImage"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#app.beers.models.BeerImage" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">flask_mongoengine.Document</span></code></p>
+<dl class="exception">
+<dt id="app.beers.models.BeerImage.DoesNotExist">
+<em class="property">exception </em><code class="descname">DoesNotExist</code><a class="headerlink" href="#app.beers.models.BeerImage.DoesNotExist" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">mongoengine.errors.DoesNotExist</span></code></p>
+</dd></dl>
+
+<dl class="exception">
+<dt id="app.beers.models.BeerImage.MultipleObjectsReturned">
+<em class="property">exception </em><code class="descclassname">BeerImage.</code><code class="descname">MultipleObjectsReturned</code><a class="headerlink" href="#app.beers.models.BeerImage.MultipleObjectsReturned" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">mongoengine.errors.MultipleObjectsReturned</span></code></p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="app.beers.models.BeerImage.id">
+<code class="descclassname">BeerImage.</code><code class="descname">id</code><a class="headerlink" href="#app.beers.models.BeerImage.id" title="Permalink to this definition">¶</a></dt>
+<dd><p>A field wrapper around MongoDB&#8217;s ObjectIds.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="app.beers.models.BeerImage.image">
+<code class="descclassname">BeerImage.</code><code class="descname">image</code><a class="headerlink" href="#app.beers.models.BeerImage.image" title="Permalink to this definition">¶</a></dt>
+<dd><p>A Image File storage field.</p>
+<dl class="docutils">
+<dt>&#64;size (width, height, force):</dt>
+<dd>max size to store images, if larger will be automatically resized
+ex: size=(800, 600, True)</dd>
+<dt>&#64;thumbnail (width, height, force):</dt>
+<dd>size to generate a thumbnail</dd>
+</dl>
+<div class="versionadded">
+<p><span class="versionmodified">New in version 0.6.</span></p>
+</div>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="app.beers.models.BeerImage.name">
+<code class="descclassname">BeerImage.</code><code class="descname">name</code><a class="headerlink" href="#app.beers.models.BeerImage.name" title="Permalink to this definition">¶</a></dt>
+<dd><p>A unicode string field.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="app.beers.models.BeerImage.objects">
+<code class="descclassname">BeerImage.</code><code class="descname">objects</code><a class="headerlink" href="#app.beers.models.BeerImage.objects" title="Permalink to this definition">¶</a></dt>
+<dd><p>The default QuerySet Manager.</p>
+<p>Custom QuerySet Manager functions can extend this class and users can
+add extra queryset functionality.  Any custom manager methods must accept a
+<code class="xref py py-class docutils literal"><span class="pre">Document</span></code> class as its first argument, and a
+<code class="xref py py-class docutils literal"><span class="pre">QuerySet</span></code> as its second argument.</p>
+<p>The method function should return a <code class="xref py py-class docutils literal"><span class="pre">QuerySet</span></code>
+, probably the same one that was passed in, but modified in some way.</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-app.beers.resources">
+<span id="app-beers-resources-module"></span><h2>app.beers.resources module<a class="headerlink" href="#module-app.beers.resources" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="app.beers.resources.BeerAPI">
+<em class="property">class </em><code class="descclassname">app.beers.resources.</code><code class="descname">BeerAPI</code><a class="reference internal" href="_modules/app/beers/resources.html#BeerAPI"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#app.beers.resources.BeerAPI" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">flask_restful.Resource</span></code></p>
+<p>An API to update or delete a beer.</p>
+<dl class="method">
+<dt id="app.beers.resources.BeerAPI.delete">
+<code class="descname">delete</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/app/beers/resources.html#BeerAPI.delete"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#app.beers.resources.BeerAPI.delete" title="Permalink to this definition">¶</a></dt>
+<dd><p>HTTP DELETE. Delete a beer.
+:returns:</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="app.beers.resources.BeerAPI.endpoint">
+<code class="descname">endpoint</code><em class="property"> = 'beerapi'</em><a class="headerlink" href="#app.beers.resources.BeerAPI.endpoint" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="app.beers.resources.BeerAPI.mediatypes">
+<code class="descname">mediatypes</code><span class="sig-paren">(</span><em>resource_cls</em><span class="sig-paren">)</span><a class="headerlink" href="#app.beers.resources.BeerAPI.mediatypes" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="app.beers.resources.BeerAPI.methods">
+<code class="descname">methods</code><em class="property"> = ['DELETE', 'PUT']</em><a class="headerlink" href="#app.beers.resources.BeerAPI.methods" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="app.beers.resources.BeerAPI.put">
+<code class="descname">put</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/app/beers/resources.html#BeerAPI.put"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#app.beers.resources.BeerAPI.put" title="Permalink to this definition">¶</a></dt>
+<dd><p>HTTP PUT. Update a beer.
+:returns:</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="app.beers.resources.BeersAPI">
+<em class="property">class </em><code class="descclassname">app.beers.resources.</code><code class="descname">BeersAPI</code><a class="reference internal" href="_modules/app/beers/resources.html#BeersAPI"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#app.beers.resources.BeersAPI" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">flask_restful.Resource</span></code></p>
+<p>An API to get or create Beers.</p>
+<dl class="attribute">
+<dt id="app.beers.resources.BeersAPI.endpoint">
+<code class="descname">endpoint</code><em class="property"> = 'beersapi'</em><a class="headerlink" href="#app.beers.resources.BeersAPI.endpoint" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="app.beers.resources.BeersAPI.get">
+<code class="descname">get</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/app/beers/resources.html#BeersAPI.get"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#app.beers.resources.BeersAPI.get" title="Permalink to this definition">¶</a></dt>
+<dd><p>HTTP GET. Get one or all beers.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Name:</th><td class="field-body">a string valid as object id.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">One or all available users.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="app.beers.resources.BeersAPI.mediatypes">
+<code class="descname">mediatypes</code><span class="sig-paren">(</span><em>resource_cls</em><span class="sig-paren">)</span><a class="headerlink" href="#app.beers.resources.BeersAPI.mediatypes" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="app.beers.resources.BeersAPI.methods">
+<code class="descname">methods</code><em class="property"> = ['GET', 'POST']</em><a class="headerlink" href="#app.beers.resources.BeersAPI.methods" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="app.beers.resources.BeersAPI.post">
+<code class="descname">post</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/app/beers/resources.html#BeersAPI.post"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#app.beers.resources.BeersAPI.post" title="Permalink to this definition">¶</a></dt>
+<dd><p>HTTP POST. Create a beer.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Name:</th><td class="field-body">The beer name</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Description:</th><td class="field-body">The beer description</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Abv:</th><td class="field-body">The beer abv percent</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Floor:</th><td class="field-body">The beer floor number</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Image:</th><td class="field-body">The beer image name on the server</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Active:</th><td class="field-body">Boolean whethe the beer is being used currently</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">The user id</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="function">
+<dt id="app.beers.resources.post_put_parser">
+<code class="descclassname">app.beers.resources.</code><code class="descname">post_put_parser</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/app/beers/resources.html#post_put_parser"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#app.beers.resources.post_put_parser" title="Permalink to this definition">¶</a></dt>
+<dd><p>Request parser for HTTP POST or PUT.
+:returns: flask_restful.reqparse.RequestParser object</p>
+</dd></dl>
+
+</div>
+<div class="section" id="module-app.beers">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-app.beers" title="Permalink to this headline">¶</a></h2>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">app.beers package</a><ul>
+<li><a class="reference internal" href="#submodules">Submodules</a></li>
+<li><a class="reference internal" href="#module-app.beers.controllers">app.beers.controllers module</a></li>
+<li><a class="reference internal" href="#module-app.beers.models">app.beers.models module</a></li>
+<li><a class="reference internal" href="#module-app.beers.resources">app.beers.resources module</a></li>
+<li><a class="reference internal" href="#module-app.beers">Module contents</a></li>
+</ul>
+</li>
+</ul>
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+  <li><a href="app.html">app package</a><ul>
+      <li>Previous: <a href="app.auth.html" title="previous chapter">app.auth package</a></li>
+      <li>Next: <a href="app.config.html" title="next chapter">app.config package</a></li>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/app.beers.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2017, Beer List Api.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.5.2</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.9</a>
+      
+      |
+      <a href="_sources/app.beers.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

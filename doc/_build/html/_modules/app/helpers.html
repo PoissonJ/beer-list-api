@@ -1,0 +1,222 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>app.helpers &#8212; app  documentation</title>
+    
+    <link rel="stylesheet" href="../../_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+   
+  <link rel="stylesheet" href="../../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body role="document">
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <h1>Source code for app.helpers</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">collections</span>
+<span class="kn">import</span> <span class="nn">functools</span>
+<span class="kn">import</span> <span class="nn">json</span>
+<span class="kn">import</span> <span class="nn">flask</span>
+<span class="kn">from</span> <span class="nn">flask</span> <span class="k">import</span> <span class="n">jsonify</span>
+<span class="kn">from</span> <span class="nn">passlib</span> <span class="k">import</span> <span class="nb">hash</span>
+<span class="kn">from</span> <span class="nn">flask_restful</span> <span class="k">import</span> <span class="n">Api</span>
+<span class="kn">from</span> <span class="nn">flask_jwt</span> <span class="k">import</span> <span class="n">JWTError</span>
+
+
+<div class="viewcode-block" id="MyApi"><a class="viewcode-back" href="../../app.html#app.helpers.MyApi">[docs]</a><span class="k">class</span> <span class="nc">MyApi</span><span class="p">(</span><span class="n">Api</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;A simple class to keep the default flask_jwt.JWTError behaviour.&quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="MyApi.handle_error"><a class="viewcode-back" href="../../app.html#app.helpers.MyApi.handle_error">[docs]</a>    <span class="k">def</span> <span class="nf">handle_error</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">e</span><span class="p">):</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">e</span><span class="p">,</span> <span class="n">JWTError</span><span class="p">):</span>
+            <span class="k">return</span> <span class="n">flask</span><span class="o">.</span><span class="n">jsonify</span><span class="p">(</span>
+                <span class="n">collections</span><span class="o">.</span><span class="n">OrderedDict</span><span class="p">([</span>
+                    <span class="p">(</span><span class="s1">&#39;status_code&#39;</span><span class="p">,</span> <span class="n">e</span><span class="o">.</span><span class="n">status_code</span><span class="p">),</span>
+                    <span class="p">(</span><span class="s1">&#39;error&#39;</span><span class="p">,</span> <span class="n">e</span><span class="o">.</span><span class="n">error</span><span class="p">),</span>
+                    <span class="p">(</span><span class="s1">&#39;description&#39;</span><span class="p">,</span> <span class="n">e</span><span class="o">.</span><span class="n">description</span><span class="p">),</span>
+                <span class="p">])</span>
+            <span class="p">),</span> <span class="n">e</span><span class="o">.</span><span class="n">status_code</span><span class="p">,</span> <span class="n">e</span><span class="o">.</span><span class="n">headers</span>
+        <span class="k">return</span> <span class="nb">super</span><span class="p">(</span><span class="n">MyApi</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">handle_error</span><span class="p">(</span><span class="n">e</span><span class="p">)</span></div></div>
+
+
+<div class="viewcode-block" id="get_hash_algorithm"><a class="viewcode-back" href="../../app.html#app.helpers.get_hash_algorithm">[docs]</a><span class="k">def</span> <span class="nf">get_hash_algorithm</span><span class="p">(</span><span class="n">hash_algorithm</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Returns a object with methods to encrypt a string and verify a hash.</span>
+
+<span class="sd">    :hash_algorithm: a string object</span>
+<span class="sd">    :returns: hash function</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">available_methods</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s1">&#39;SHA256&#39;</span><span class="p">:</span> <span class="nb">hash</span><span class="o">.</span><span class="n">sha256_crypt</span><span class="p">,</span>
+        <span class="s1">&#39;SHA512&#39;</span><span class="p">:</span> <span class="nb">hash</span><span class="o">.</span><span class="n">sha512_crypt</span><span class="p">,</span>
+    <span class="p">}</span>
+
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">hash_algorithm</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;The parameter &quot;hash_algorithm&quot; should be a string.&#39;</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">hash_algorithm</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">available_methods</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;Invalid hash method.&#39;</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">available_methods</span><span class="p">[</span><span class="n">hash_algorithm</span><span class="p">]</span></div>
+
+
+<div class="viewcode-block" id="encrypt_password"><a class="viewcode-back" href="../../app.html#app.helpers.encrypt_password">[docs]</a><span class="k">def</span> <span class="nf">encrypt_password</span><span class="p">(</span><span class="n">plaintext</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Generate a hash based on current_app HASH_ALGORITHM.</span>
+
+<span class="sd">    :plaintext: a string object.</span>
+<span class="sd">    :returns: a string object.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">method</span> <span class="o">=</span> <span class="n">get_hash_algorithm</span><span class="p">(</span><span class="n">flask</span><span class="o">.</span><span class="n">current_app</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s1">&#39;HASH_ALGORITHM&#39;</span><span class="p">])</span>
+
+    <span class="k">return</span> <span class="n">method</span><span class="o">.</span><span class="n">encrypt</span><span class="p">(</span>
+        <span class="n">plaintext</span><span class="p">,</span> <span class="n">salt</span><span class="o">=</span><span class="n">flask</span><span class="o">.</span><span class="n">current_app</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s1">&#39;HASH_SALT&#39;</span><span class="p">])</span></div>
+
+
+<div class="viewcode-block" id="verify_password"><a class="viewcode-back" href="../../app.html#app.helpers.verify_password">[docs]</a><span class="k">def</span> <span class="nf">verify_password</span><span class="p">(</span><span class="n">password</span><span class="p">,</span> <span class="nb">hash</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Verify if a hash was generated by the password specified.</span>
+
+<span class="sd">    :password: a string object (plaintext).</span>
+<span class="sd">    :hash: a string object.</span>
+<span class="sd">    :returns: True or False.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">method</span> <span class="o">=</span> <span class="n">get_hash_algorithm</span><span class="p">(</span><span class="n">flask</span><span class="o">.</span><span class="n">current_app</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s1">&#39;HASH_ALGORITHM&#39;</span><span class="p">])</span>
+
+    <span class="k">return</span> <span class="n">method</span><span class="o">.</span><span class="n">verify</span><span class="p">(</span><span class="n">password</span><span class="p">,</span> <span class="nb">hash</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="standardize_api_response"><a class="viewcode-back" href="../../app.html#app.helpers.standardize_api_response">[docs]</a><span class="k">def</span> <span class="nf">standardize_api_response</span><span class="p">(</span><span class="n">function</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; Creates a standardized response. This function should be used as a deco</span>
+<span class="sd">    rator.</span>
+<span class="sd">    :function: The function decorated should return a dict with one of</span>
+<span class="sd">    the keys  bellow:</span>
+<span class="sd">        success -&gt; GET, 200</span>
+<span class="sd">        error -&gt; Bad Request, 400</span>
+<span class="sd">        created -&gt; POST, 201</span>
+<span class="sd">        updated -&gt; PUT, 200</span>
+<span class="sd">        deleted -&gt; DELETE, 200</span>
+<span class="sd">        no-data -&gt; No Content, 204</span>
+
+<span class="sd">    :returns: json.dumps(response), staus code</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">available_result_keys</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="s1">&#39;success&#39;</span><span class="p">,</span> <span class="s1">&#39;error&#39;</span><span class="p">,</span> <span class="s1">&#39;created&#39;</span><span class="p">,</span> <span class="s1">&#39;updated&#39;</span><span class="p">,</span> <span class="s1">&#39;deleted&#39;</span><span class="p">,</span> <span class="s1">&#39;no-data&#39;</span><span class="p">]</span>
+
+    <span class="n">status_code_and_descriptions</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s1">&#39;success&#39;</span><span class="p">:</span> <span class="p">(</span><span class="mi">200</span><span class="p">,</span> <span class="s1">&#39;Successful Operation&#39;</span><span class="p">),</span>
+        <span class="s1">&#39;error&#39;</span><span class="p">:</span> <span class="p">(</span><span class="mi">400</span><span class="p">,</span> <span class="s1">&#39;Bad Request&#39;</span><span class="p">),</span>
+        <span class="s1">&#39;created&#39;</span><span class="p">:</span> <span class="p">(</span><span class="mi">201</span><span class="p">,</span> <span class="s1">&#39;Successfully created&#39;</span><span class="p">),</span>
+        <span class="s1">&#39;updated&#39;</span><span class="p">:</span> <span class="p">(</span><span class="mi">200</span><span class="p">,</span> <span class="s1">&#39;Successfully updated&#39;</span><span class="p">),</span>
+        <span class="s1">&#39;deleted&#39;</span><span class="p">:</span> <span class="p">(</span><span class="mi">200</span><span class="p">,</span> <span class="s1">&#39;Successfully deleted&#39;</span><span class="p">),</span>
+        <span class="s1">&#39;no-data&#39;</span><span class="p">:</span> <span class="p">(</span><span class="mi">204</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">)</span>
+    <span class="p">}</span>
+
+    <span class="nd">@functools</span><span class="o">.</span><span class="n">wraps</span><span class="p">(</span><span class="n">function</span><span class="p">)</span>
+    <span class="k">def</span> <span class="nf">make_response</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+
+        <span class="n">result</span> <span class="o">=</span> <span class="n">function</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">set</span><span class="p">(</span><span class="n">available_result_keys</span><span class="p">)</span> <span class="o">&amp;</span> <span class="nb">set</span><span class="p">(</span><span class="n">result</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;Invalid result key.&#39;</span><span class="p">)</span>
+
+        <span class="n">status_code</span><span class="p">,</span> <span class="n">description</span> <span class="o">=</span> <span class="n">status_code_and_descriptions</span><span class="p">[</span>
+            <span class="nb">next</span><span class="p">(</span><span class="nb">iter</span><span class="p">(</span><span class="n">result</span><span class="o">.</span><span class="n">keys</span><span class="p">()))</span>
+        <span class="p">]</span>
+
+        <span class="n">status_code</span> <span class="o">=</span> <span class="p">(</span><span class="s1">&#39;status_code&#39;</span><span class="p">,</span> <span class="n">status_code</span><span class="p">)</span>
+        <span class="n">description</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="p">(</span><span class="s1">&#39;description&#39;</span><span class="p">,</span> <span class="n">description</span><span class="p">)</span> <span class="k">if</span> <span class="n">status_code</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">!=</span> <span class="mi">400</span> <span class="k">else</span>
+            <span class="p">(</span><span class="s1">&#39;error&#39;</span><span class="p">,</span> <span class="n">description</span><span class="p">)</span>
+        <span class="p">)</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="p">(</span><span class="s1">&#39;data&#39;</span><span class="p">,</span> <span class="nb">next</span><span class="p">(</span><span class="nb">iter</span><span class="p">(</span><span class="n">result</span><span class="o">.</span><span class="n">values</span><span class="p">())))</span> <span class="k">if</span> <span class="n">status_code</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">!=</span> <span class="mi">204</span> <span class="k">else</span>
+            <span class="p">(</span><span class="s1">&#39;data&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">)</span>
+        <span class="p">)</span>
+
+        <span class="c1"># return json.dumps(collections.OrderedDict([</span>
+        <span class="c1">#     status_code, description, data])), status_code[-1]</span>
+        <span class="k">return</span> <span class="p">{</span>
+            <span class="n">status_code</span><span class="p">[</span><span class="mi">0</span><span class="p">]:</span> <span class="n">status_code</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span>
+            <span class="n">description</span><span class="p">[</span><span class="mi">0</span><span class="p">]:</span> <span class="n">description</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span>
+            <span class="n">data</span><span class="p">[</span><span class="mi">0</span><span class="p">]:</span> <span class="n">data</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span>
+        <span class="p">},</span> <span class="n">status_code</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+
+    <span class="k">return</span> <span class="n">make_response</span></div>
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper"><div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../../index.html">Documentation overview</a><ul>
+  <li><a href="../index.html">Module code</a><ul>
+  <li><a href="../app.html">app</a><ul>
+  </ul></li>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../../search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2017, Beer List Api.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.5.2</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.9</a>
+      
+    </div>
+
+    
+
+    
+  </body>
+</html>

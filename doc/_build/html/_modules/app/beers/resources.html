@@ -1,0 +1,194 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>app.beers.resources &#8212; app  documentation</title>
+    
+    <link rel="stylesheet" href="../../../_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../../',
+        VERSION:     '',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
+      };
+    </script>
+    <script type="text/javascript" src="../../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../../_static/doctools.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+   
+  <link rel="stylesheet" href="../../../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body role="document">
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <h1>Source code for app.beers.resources</h1><div class="highlight"><pre>
+<span></span><span class="kn">from</span> <span class="nn">flask_restful</span> <span class="k">import</span> <span class="n">Resource</span><span class="p">,</span> <span class="n">reqparse</span>
+<span class="kn">from</span> <span class="nn">flask_jwt</span> <span class="k">import</span> <span class="n">jwt_required</span>
+<span class="kn">from</span> <span class="nn">app</span> <span class="k">import</span> <span class="n">helpers</span><span class="p">,</span> <span class="n">utils</span>
+<span class="kn">from</span> <span class="nn">.</span> <span class="k">import</span> <span class="n">controllers</span>
+
+
+<div class="viewcode-block" id="post_put_parser"><a class="viewcode-back" href="../../../app.beers.html#app.beers.resources.post_put_parser">[docs]</a><span class="k">def</span> <span class="nf">post_put_parser</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot;Request parser for HTTP POST or PUT.</span>
+<span class="sd">    :returns: flask_restful.reqparse.RequestParser object</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">parse</span> <span class="o">=</span> <span class="n">reqparse</span><span class="o">.</span><span class="n">RequestParser</span><span class="p">()</span>
+    <span class="n">parse</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
+        <span class="s1">&#39;name&#39;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">str</span><span class="p">,</span> <span class="n">location</span><span class="o">=</span><span class="s1">&#39;json&#39;</span><span class="p">,</span> <span class="n">required</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">parse</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
+        <span class="s1">&#39;description&#39;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">str</span><span class="p">,</span> <span class="n">location</span><span class="o">=</span><span class="s1">&#39;json&#39;</span><span class="p">,</span> <span class="n">required</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">parse</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
+        <span class="s1">&#39;abv&#39;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">float</span><span class="p">,</span> <span class="n">location</span><span class="o">=</span><span class="s1">&#39;json&#39;</span><span class="p">,</span> <span class="n">required</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">parse</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
+        <span class="s1">&#39;floor&#39;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">int</span><span class="p">,</span> <span class="n">location</span><span class="o">=</span><span class="s1">&#39;json&#39;</span><span class="p">,</span> <span class="n">required</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">parse</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
+        <span class="s1">&#39;image&#39;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">str</span><span class="p">,</span> <span class="n">location</span><span class="o">=</span><span class="s1">&#39;json&#39;</span><span class="p">,</span> <span class="n">required</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">parse</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
+        <span class="s1">&#39;active&#39;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">bool</span><span class="p">,</span> <span class="n">location</span><span class="o">=</span><span class="s1">&#39;json&#39;</span><span class="p">,</span> <span class="n">required</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">parse</span></div>
+
+
+<div class="viewcode-block" id="BeersAPI"><a class="viewcode-back" href="../../../app.beers.html#app.beers.resources.BeersAPI">[docs]</a><span class="k">class</span> <span class="nc">BeersAPI</span><span class="p">(</span><span class="n">Resource</span><span class="p">):</span>
+
+    <span class="sd">&quot;&quot;&quot;An API to get or create Beers.&quot;&quot;&quot;</span>
+
+    <span class="nd">@jwt_required</span><span class="p">()</span>
+    <span class="nd">@helpers</span><span class="o">.</span><span class="n">standardize_api_response</span>
+<div class="viewcode-block" id="BeersAPI.get"><a class="viewcode-back" href="../../../app.beers.html#app.beers.resources.BeersAPI.get">[docs]</a>    <span class="k">def</span> <span class="nf">get</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;HTTP GET. Get one or all beers.</span>
+
+<span class="sd">        :name: a string valid as object id.</span>
+<span class="sd">        :returns: One or all available users.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">return</span> <span class="n">controllers</span><span class="o">.</span><span class="n">get_beers</span><span class="p">(</span><span class="n">name</span><span class="p">)</span></div>
+
+    <span class="c1"># @jwt_required()</span>
+    <span class="nd">@helpers</span><span class="o">.</span><span class="n">standardize_api_response</span>
+<div class="viewcode-block" id="BeersAPI.post"><a class="viewcode-back" href="../../../app.beers.html#app.beers.resources.BeersAPI.post">[docs]</a>    <span class="k">def</span> <span class="nf">post</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;HTTP POST. Create a beer.</span>
+
+<span class="sd">        :name: The beer name</span>
+<span class="sd">        :description: The beer description</span>
+<span class="sd">        :abv: The beer abv percent</span>
+<span class="sd">        :floor: The beer floor number</span>
+<span class="sd">        :image: The beer image name on the server</span>
+<span class="sd">        :active: Boolean whethe the beer is being used currently</span>
+<span class="sd">        :returns: The user id</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">parse</span> <span class="o">=</span> <span class="n">post_put_parser</span><span class="p">()</span>
+        <span class="n">args</span> <span class="o">=</span> <span class="n">parse</span><span class="o">.</span><span class="n">parse_args</span><span class="p">()</span>
+
+        <span class="n">name</span><span class="p">,</span> <span class="n">description</span> <span class="o">=</span> <span class="n">args</span><span class="p">[</span><span class="s1">&#39;name&#39;</span><span class="p">],</span> <span class="n">args</span><span class="p">[</span><span class="s1">&#39;description&#39;</span><span class="p">]</span>
+        <span class="n">abv</span><span class="p">,</span> <span class="n">floor</span> <span class="o">=</span> <span class="n">args</span><span class="p">[</span><span class="s1">&#39;abv&#39;</span><span class="p">],</span> <span class="n">args</span><span class="p">[</span><span class="s1">&#39;floor&#39;</span><span class="p">]</span>
+        <span class="n">image</span><span class="p">,</span> <span class="n">active</span> <span class="o">=</span> <span class="n">args</span><span class="p">[</span><span class="s1">&#39;image&#39;</span><span class="p">],</span> <span class="n">args</span><span class="p">[</span><span class="s1">&#39;active&#39;</span><span class="p">]</span>
+
+        <span class="k">return</span> <span class="n">controllers</span><span class="o">.</span><span class="n">create_or_update_beer</span><span class="p">(</span>
+            <span class="n">name</span><span class="p">,</span> <span class="n">description</span><span class="p">,</span> <span class="n">abv</span><span class="p">,</span> <span class="n">floor</span><span class="p">,</span> <span class="n">image</span><span class="p">,</span> <span class="n">active</span><span class="p">)</span></div></div>
+
+
+<div class="viewcode-block" id="BeerAPI"><a class="viewcode-back" href="../../../app.beers.html#app.beers.resources.BeerAPI">[docs]</a><span class="k">class</span> <span class="nc">BeerAPI</span><span class="p">(</span><span class="n">Resource</span><span class="p">):</span>
+
+    <span class="sd">&quot;&quot;&quot;An API to update or delete a beer. &quot;&quot;&quot;</span>
+
+    <span class="c1"># @jwt_required()</span>
+    <span class="nd">@helpers</span><span class="o">.</span><span class="n">standardize_api_response</span>
+<div class="viewcode-block" id="BeerAPI.put"><a class="viewcode-back" href="../../../app.beers.html#app.beers.resources.BeerAPI.put">[docs]</a>    <span class="k">def</span> <span class="nf">put</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;HTTP PUT. Update a beer.</span>
+<span class="sd">        :returns:</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">parse</span> <span class="o">=</span> <span class="n">post_put_parser</span><span class="p">()</span>
+        <span class="n">parse</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s1">&#39;beer_id&#39;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">str</span><span class="p">,</span> <span class="n">location</span><span class="o">=</span><span class="s1">&#39;json&#39;</span><span class="p">,</span> <span class="n">required</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="n">args</span> <span class="o">=</span> <span class="n">parse</span><span class="o">.</span><span class="n">parse_args</span><span class="p">()</span>
+
+        <span class="n">name</span><span class="p">,</span> <span class="n">description</span> <span class="o">=</span> <span class="n">args</span><span class="p">[</span><span class="s1">&#39;name&#39;</span><span class="p">],</span> <span class="n">args</span><span class="p">[</span><span class="s1">&#39;description&#39;</span><span class="p">]</span>
+        <span class="n">abv</span><span class="p">,</span> <span class="n">floor</span> <span class="o">=</span> <span class="n">args</span><span class="p">[</span><span class="s1">&#39;abv&#39;</span><span class="p">],</span> <span class="n">args</span><span class="p">[</span><span class="s1">&#39;floor&#39;</span><span class="p">]</span>
+        <span class="n">image</span><span class="p">,</span> <span class="n">active</span> <span class="o">=</span> <span class="n">args</span><span class="p">[</span><span class="s1">&#39;image&#39;</span><span class="p">],</span> <span class="n">args</span><span class="p">[</span><span class="s1">&#39;active&#39;</span><span class="p">]</span>
+        <span class="n">beer_id</span> <span class="o">=</span> <span class="n">args</span><span class="p">[</span><span class="s1">&#39;beer_id&#39;</span><span class="p">]</span>
+
+        <span class="k">return</span> <span class="n">controllers</span><span class="o">.</span><span class="n">create_or_update_beer</span><span class="p">(</span>
+            <span class="n">name</span><span class="p">,</span> <span class="n">description</span><span class="p">,</span> <span class="n">abv</span><span class="p">,</span> <span class="n">floor</span><span class="p">,</span> <span class="n">image</span><span class="p">,</span> <span class="n">active</span><span class="p">,</span> <span class="n">beer_id</span><span class="p">)</span></div>
+
+    <span class="c1"># @jwt_required()</span>
+    <span class="nd">@helpers</span><span class="o">.</span><span class="n">standardize_api_response</span>
+<div class="viewcode-block" id="BeerAPI.delete"><a class="viewcode-back" href="../../../app.beers.html#app.beers.resources.BeerAPI.delete">[docs]</a>    <span class="k">def</span> <span class="nf">delete</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">beer_id</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;HTTP DELETE. Delete a beer.</span>
+<span class="sd">        :returns:</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">utils</span><span class="o">.</span><span class="n">is_a_valid_object_id</span><span class="p">(</span><span class="n">beer_id</span><span class="p">):</span>
+            <span class="k">return</span> <span class="p">{</span><span class="s1">&#39;error&#39;</span><span class="p">:</span> <span class="s1">&#39;Invalid beer id.&#39;</span><span class="p">}</span>
+        <span class="k">return</span> <span class="n">controllers</span><span class="o">.</span><span class="n">delete_beer</span><span class="p">(</span><span class="n">beer_id</span><span class="p">)</span></div></div>
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper"><div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../../../index.html">Documentation overview</a><ul>
+  <li><a href="../../index.html">Module code</a><ul>
+  <li><a href="../../app.html">app</a><ul>
+  </ul></li>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../../../search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2017, Beer List Api.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.5.2</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.9</a>
+      
+    </div>
+
+    
+
+    
+  </body>
+</html>
