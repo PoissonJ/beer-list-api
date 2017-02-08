@@ -1,6 +1,7 @@
 web:
   build: .
-  command: python -u manage.py startserver
+  dockerfile: Dockerfile.test
+  command: bash -c "py.test tests -vrsx --cov app --pylama && coveralls"
   ports:
     - "5000:5000"
   volumes:
