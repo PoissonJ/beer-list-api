@@ -28,23 +28,16 @@ def get_users(username=None):
     return {'success': [u.to_json2() for u in users]}
 
 
-def create_or_update_user(username, password, user_id=None):
+def create_or_update_user(username, password, role=None, user_id=None):
     """Creates or updates an user.
 
     :username: a string object
     :password: a string object (plaintext)
+    :role: a string object
     :user_id: a str object. Indicates an update.
     :returns: a dict with the operation result
 
     """
-    # Creating a new user
-    if not user_id:
-        # Prevenent creation if already a user
-        # Current small workaround. Need a role mechanism
-        if models.User.objects.count() > 0:
-            return {'error': 'Not accepting users at this time'}
-        
-        
 
     if is_an_available_username(username) is False:
         return {'error': 'The user {!r} already exists.'.format(username)}
@@ -54,9 +47,13 @@ def create_or_update_user(username, password, user_id=None):
         result = models.User.objects(**query).update(
             set__username=username,
             set__password=helpers.encrypt_password(password),
+            set__role=role,
             upsert=True,
             full_result=True
         )
+        print '!!!!!!!!!!!!!1'
+        print result
+        print '!!!!!!!!!!!!!1'
     except Exception as e:
         return {'error': 'Error during the operation: {}'.format(e)}
 

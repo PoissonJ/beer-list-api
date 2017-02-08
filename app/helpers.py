@@ -2,10 +2,13 @@ import collections
 import functools
 import json
 import flask
+import users
 from flask import jsonify
 from passlib import hash
 from flask_restful import Api
-from flask_jwt import JWTError
+from flask_jwt import JWTError, current_user
+
+from pprint import pprint
 
 
 class MyApi(Api):
@@ -72,6 +75,26 @@ def verify_password(password, hash):
 
     return method.verify(password, hash)
 
+
+def get_current_user_role(username):
+    user = users.models.User.objects(username=username).first()
+    if user:
+        return user.role 
+    return None
+
+def requires_roles(*roles):
+    def wrapper(f):
+        @functools.wraps(f)
+        def wrapped(*args, **kwargs):
+            if current_user.role not in roles:
+                return {
+                    "description": "User does not have sufficent rights", 
+                    "error": "Authorization Required", 
+                    "status_code": 401
+                }
+            return f(*args, **kwargs)
+        return wrapped
+    return wrapper
 
 def standardize_api_response(function):
     """ Creates a standardized response. This function should be used as a deco

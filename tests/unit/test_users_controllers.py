@@ -26,7 +26,8 @@ def test_get_users_with_data(app, mock_user):
     expected = {
         'success': [{
             'id': str(user.id),
-            'username': user.username
+            'username': user.username,
+            'role': user.role
         }]
     }
 
@@ -39,7 +40,8 @@ def test_get_users_with_data_and_specific_username(app, mock_user):
     expected = {
         'success': [{
             'id': str(user.id),
-            'username': user.username
+            'username': user.username,
+            'role': user.role
         }]
     }
 

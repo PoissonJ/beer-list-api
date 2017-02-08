@@ -51,3 +51,8 @@ def register_blueprints(app):
     @app.route('/')
     def index():
         return '<a href="/admin/">Click me to get to Admin!</a>'
+
+    @app.before_first_request
+    def create_admin_user():
+        if not users.models.User.objects():
+            users.controllers.create_or_update_user('admin', 'password', 'admin')

@@ -4,8 +4,8 @@ web:
   command: python -u manage.py startserver
   ports:
     - "5000:5000"
-  volumes:
-    - .:/app
+  # volumes:
+  #   - .:/app
   links:
     - db
 db:

@@ -4,8 +4,8 @@ web:
   command: bash -c "py.test tests -vrsx --cov app --pylama && coveralls"
   ports:
     - "5000:5000"
-  volumes:
-    - .:/app
+  # volumes:
+  #   - .:/app
   links:
     - db
 db:

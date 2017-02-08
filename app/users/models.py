@@ -7,6 +7,7 @@ class User(db.Document):
 
     username = db.StringField()
     password = db.StringField()
+    role = db.StringField()
 
     def to_json2(self):
         """Returns a json representantion of the user.
@@ -16,5 +17,6 @@ class User(db.Document):
 
         return {
             'id': str(self.id),
-            'username': self.username
+            'username': self.username,
+            'role': self.role
         }

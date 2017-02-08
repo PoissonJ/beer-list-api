@@ -14,6 +14,8 @@ def post_put_parser():
         'username', type=str, location='json', required=True)
     parse.add_argument(
         'password', type=str, location='json', required=True)
+    parse.add_argument(
+        'role', type=str, location='json', required=False)
 
     return parse
 
@@ -22,20 +24,8 @@ class UsersAPI(Resource):
 
     """An API to get or create users."""
 
-    def _post_put_parser(self):
-        """Request parser for HTTP POST or PUT.
-        :returns: flask_restful.reqparse.RequestParser object
-
-        """
-        parse = reqparse.RequestParser()
-        parse.add_argument(
-            'username', type=str, location='json', required=True)
-        parse.add_argument(
-            'password', type=str, location='json', required=True)
-
-        return parse
-
     @jwt_required()
+    @helpers.requires_roles('admin')
     @helpers.standardize_api_response
     def get(self, username=None):
         """HTTP GET. Get one or all users.
@@ -47,7 +37,8 @@ class UsersAPI(Resource):
 
         return controllers.get_users(username)
 
-    # @jwt_required()
+    @jwt_required()
+    @helpers.requires_roles('admin')
     @helpers.standardize_api_response
     def post(self):
         """HTTP POST. Create an user.
@@ -60,9 +51,9 @@ class UsersAPI(Resource):
 
         parse = post_put_parser()
         args = parse.parse_args()
-        username, password = args['username'], args['password']
+        username, password, role = args['username'], args['password'], args['role']
 
-        return controllers.create_or_update_user(username, password)
+        return controllers.create_or_update_user(username, password, role)
 
 
 class UserAPI(Resource):
@@ -70,6 +61,7 @@ class UserAPI(Resource):
     """An API to update or delete an user. """
 
     @jwt_required()
+    @helpers.requires_roles('admin')
     @helpers.standardize_api_response
     def put(self):
         """HTTP PUT. Update an user.
@@ -82,11 +74,12 @@ class UserAPI(Resource):
         args = parse.parse_args()
 
         username, password = args['username'], args['password']
-        user_id = args['user_id']
+        role, user_id = args['role'], args['user_id']
 
-        return controllers.create_or_update_user(username, password, user_id)
+        return controllers.create_or_update_user(username, password, role, user_id)
 
     @jwt_required()
+    @helpers.requires_roles('admin')
     @helpers.standardize_api_response
     def delete(self, user_id):
         """HTTP DELETE. Delete an user.

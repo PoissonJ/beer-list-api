@@ -33,7 +33,8 @@ def test_get_users_without_username(client, mock_user):
         'status_code': 200,
         'data': [{
             'id': str(user.id),
-            'username': user.username
+            'username': user.username,
+            'role': user.role
         }],
         'description': 'Successful Operation',
     }
@@ -53,7 +54,8 @@ def test_get_users_specifing_username(client, mock_user):
         'status_code': 200,
         'data': [{
             'id': str(user.id),
-            'username': user.username
+            'username': user.username,
+            'role': user.role
         }],
         'description': 'Successful Operation',
     }
@@ -61,7 +63,7 @@ def test_get_users_specifing_username(client, mock_user):
     assert sorted(response.items()) == sorted(expected.items())
 
 
-def test_create_an_user_invalid_username(client, mock_user):
+def test_create_a_user_invalid_username(client, mock_user):
 
     clear_db()
     user = mock_user('user', 'password')
@@ -80,7 +82,7 @@ def test_create_an_user_invalid_username(client, mock_user):
     assert sorted(response.items()) == sorted(expected.items())
 
 
-def test_create_an_user_valid_username(client, mock_user):
+def test_create_a_user_with_valid_username(client, mock_user):
 
     clear_db()
     mock_user('auth', 'auth')
@@ -99,7 +101,7 @@ def test_create_an_user_valid_username(client, mock_user):
     assert sorted(response.items()) == sorted(expected.items())
 
 
-def test_update_an_user_invalid_username(client, mock_user):
+def test_update_a_user_invalid_username(client, mock_user):
 
     clear_db()
     # user to auth
@@ -127,12 +129,16 @@ def test_update_an_user_invalid_username(client, mock_user):
     assert sorted(response.items()) == sorted(expected.items())
 
 
-def test_update_an_user_valid_username(client, mock_user):
+def test_update_a_user_with_valid_username(client, mock_user):
 
     clear_db()
 
     user = mock_user('user', 'password')
     jwt_header = get_jwt_auth_header('user', 'password', client)
+    response = json.loads(jrequest(
+        'GET', '/api/users', client, jwt_header).data.decode('utf-8'))
+    print 'response'
+    print response
     payload = json.dumps({
         'user_id': str(user.id),
         'username': 'it works',
@@ -147,11 +153,15 @@ def test_update_an_user_valid_username(client, mock_user):
         'data': "Updated the user 'it works'.",
         'description': 'Successfully updated'
     }
+    response2 = json.loads(jrequest(
+        'GET', '/api/users', client, jwt_header).data.decode('utf-8'))
+    print 'response2'
+    print response2
 
     assert sorted(response.items()) == sorted(expected.items())
 
 
-def test_delete_an_user_invalid_user_id(client, mock_user):
+def test_delete_a_user_with_invalid_user_id(client, mock_user):
 
     clear_db()
 
@@ -171,7 +181,7 @@ def test_delete_an_user_invalid_user_id(client, mock_user):
     assert sorted(response.items()) == sorted(expected.items())
 
 
-def test_delete_an_user_valid_user_id(client, mock_user):
+def test_delete_a_user_with_valid_user_id(client, mock_user):
 
     clear_db()
     user_to_delete = mock_user('delete', 'delete')

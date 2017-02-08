@@ -9,13 +9,14 @@ def mock_user():
 
     user = None
 
-    def make_mock_user(username=None, password=None):
+    def make_mock_user(username=None, password=None, role=None):
         """The real mock. Creates a object users.models.User .All parameters
         are optionals, by default uses the username 'mock-user', the password
-        is the same value.
+        is the same value and the role is 'admin'.
 
         :username: a string object.
         :password: a string object
+        :role: a string object
         :returns: an users.models.User object
 
         """
@@ -24,7 +25,8 @@ def mock_user():
 
         user = models.User(
             username=username or 'mock-user',
-            password=helpers.encrypt_password(password or 'mock-user')
+            password=helpers.encrypt_password(password or 'mock-user'),
+            role=role or 'admin'
         ).save()
 
         return user
