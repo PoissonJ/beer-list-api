@@ -1,34 +1,34 @@
-# import pytest
-# from app import models, helpers
+import pytest
+from app import models, helpers
 
 
-# @pytest.yield_fixture(scope='function')
-# def mock_beer():
-    # """Returns a function (clojuse) to create a a mock.
-    # """
+@pytest.yield_fixture(scope='function')
+def mock_beer():
+    """Returns a function (clojure) to create a mock.
+    """
 
-    # beer = None
+    beer = None
 
-    # def make_mock_beer(username=None, password=None):
-        # """The real mock. Creates a object users.models.Beer. All parameters
-        # are optionals, by default uses the username 'mock-user', the password
-        # is the same value.
+    def make_mock_beer(name=None, password=None, role=None):
+        """The real mock. Creates a object beers.models.Beer .All parameters
+        are optionals, by default uses the beer name 'Samuel Adams',
 
-        # :username: a string object.
-        # :password: a string object
-        # :returns: an users.models.User object
+        :username: a string object.
+        :password: a string object
+        :role: a string object
+        :returns: an users.models.User object
 
-        # """
+        """
 
         # nonlocal user
 
-        # user = models.User(
-            # username=username or 'mock-user',
-            # password=helpers.encrypt_password(password or 'mock-user')
-        # ).save()
+        beer = models.Beer(
+            name=name or 'Samuel Adams',
+            active=True
+        ).save()
 
-        # return user
+        return beer
 
-    # yield make_mock_user
+    yield make_mock_beer
 
-    # user.delete() if user else None
+    beer.delete() if beer else None
