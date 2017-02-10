@@ -201,3 +201,23 @@ def test_delete_a_user_with_valid_user_id(client, mock_user):
     }
 
     assert sorted(response.items()) == sorted(expected.items())
+
+
+def test_non_admin_user_cannot_access_admin_routes(client, mock_user):
+
+    clear_db()
+    # user_to_auth
+    mock_user('user', 'password', 'non_admin')
+
+    jwt_header = get_jwt_auth_header('user', 'password', client)
+
+    response = json.loads(jrequest(
+        'GET', '/api/users', client, jwt_header).data.decode('utf-8'))
+
+    expected = {
+        u'status_code': 401,
+        u'error': u'Authorization Required',
+        u'description': u'User does not have sufficent rights'
+    }
+
+    assert sorted(response.items()) == sorted(expected.items())
