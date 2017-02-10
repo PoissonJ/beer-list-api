@@ -1,5 +1,5 @@
 import pytest
-from app import models, helpers
+from app import models
 
 
 @pytest.yield_fixture(scope='function')
@@ -9,7 +9,7 @@ def mock_beer():
 
     beer = None
 
-    def make_mock_beer(name=None, password=None, role=None):
+    def make_mock_beer(name=None):
         """The real mock. Creates a object beers.models.Beer .All parameters
         are optionals, by default uses the beer name 'Samuel Adams',
 

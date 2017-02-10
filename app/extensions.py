@@ -30,11 +30,11 @@ def create_admin(app):
         def is_accessible(self):
             return True
         column_filters = ['name']
-        form_ajax_refs = {
-            'image': {
-                'fields': ['name']
-            }
-        }
+        # form_ajax_refs = {
+        #     'image': {
+        #         'fields': ['name']
+        #     }
+        # }
 
     admin.add_view(UserView(User))
     admin.add_view(BeerView(Beer))

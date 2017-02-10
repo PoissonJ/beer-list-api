@@ -8,11 +8,11 @@ class Beer(db.Document):
 
     """Beer model """
 
-    name = db.StringField(required=True, unique=True)
+    name = db.StringField(required=True)
     description = db.StringField()
     abv = db.FloatField()
     floor = db.IntField()
-    image = db.ReferenceField(BeerImage)
+    image = db.StringField() # Refers to the BeerImage name
     active = db.BooleanField(required=True)
 
     def to_json2(self):
@@ -23,9 +23,10 @@ class Beer(db.Document):
 
         return {
             'id': str(self.id),
-            'beer': self.name,
+            'name': self.name,
             'description': self.description,
             'abv': self.abv,
             'floor': self.floor,
-            'image_name': None if not self.image else self.image.name
+            'image_name': self.image,
+            'active': self.active
         }

@@ -1,0 +1,87 @@
+from bson.objectid import ObjectId
+from app.beers import controllers
+from tests import clear_db
+
+
+def test_is_an_available_beer(app):
+    clear_db()
+    assert controllers.is_an_available_beer(name='Samuel Adams') is True
+
+
+def test_is_an_available_beer_with_already_created_beer(app, mock_beer):
+    clear_db()
+    mock_beer(name='unavailable')
+
+    assert controllers.is_an_available_beer('unavailable') is False
+
+
+def test_get_beers_no_data(app):
+    clear_db()
+    assert controllers.get_beers() == {'no-data': ''}
+
+
+def test_get_beers_with_data(app, mock_beer):
+    clear_db()
+    beer = mock_beer()
+    expected = {
+        'success': [{
+            'id': str(beer.id),
+            'name': beer.name,
+            'description': None,
+            'abv': None,
+            'floor': None,
+            'image_name': None,
+            'active': beer.active
+        }]
+    }
+
+    assert controllers.get_beers() == expected
+
+
+def test_get_beer_with_data_and_specific_name(app, mock_beer):
+    clear_db()
+    beer = mock_beer()
+    expected = {
+        'success': [{
+            'id': str(beer.id),
+            'name': beer.name,
+            'description': None,
+            'abv': None,
+            'floor': None,
+            'image_name': None,
+            'active': beer.active
+        }]
+    }
+
+    assert controllers.get_beers(name=beer.name) == expected
+
+
+def test_create_beer(app):
+    clear_db()
+
+    assert 'created' in controllers.create_or_update_beer(
+        'Samuel Adams', 'Yummy Beer', 5.0, 4, None, True)
+
+
+def test_update_beer(app, mock_beer):
+    clear_db()
+    beer = mock_beer()
+
+    assert 'updated' in controllers.create_or_update_beer(
+        'Samuel Adams', 'Yummy Beer', 5.0, 4, None, True, beer.id)
+
+
+def test_delete_beer_with_invalid_id(app):
+    clear_db()
+    expected = {'error': 'Invalid beer id.'}
+
+    assert controllers.delete_beer(str(ObjectId())) == expected
+
+
+def test_delete_beer_with_valid_id(app, mock_beer):
+    clear_db()
+    beer = mock_beer()
+
+    expected = {'deleted': 'Beer deleted'}
+
+    assert controllers.delete_beer(str(beer.id)) == expected
