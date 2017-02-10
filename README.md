@@ -8,4 +8,9 @@ Api for the beer list IOS app
 
 ## TODO
 
-- Setup Deployment (Travis CI --> Digital Ocean --> Docker-Compose)
+- Setup Deployment
+  * Travis CI
+  * Digital Ocean
+  * Gunicorn
+  * Nginx
+  * Docker-Compose
