@@ -1,10 +1,10 @@
+sudo: required
 language: python
 python:
-  - "3.4"
-services: mongodb
-install:
-  - "pip install -r requirements.txt"
-  - "pip install -r requirements_test.txt"
-script: py.test tests -vrsx --cov app --pylama
+  - "2.7"
+services: docker
+script:
+  - docker-compose -f docker-compose.test.yml build
+  - docker-compose -f docker-compose.test.yml up --abort-on-container-exit
 after_success:
   - coveralls
