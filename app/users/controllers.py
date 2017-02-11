@@ -51,9 +51,6 @@ def create_or_update_user(username, password, role=None, user_id=None):
             upsert=True,
             full_result=True
         )
-        print '!!!!!!!!!!!!!1'
-        print result
-        print '!!!!!!!!!!!!!1'
     except Exception as e:
         return {'error': 'Error during the operation: {}'.format(e)}
 

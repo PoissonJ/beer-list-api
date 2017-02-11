@@ -2,14 +2,14 @@ from app import helpers
 from . import models
 
 
-def is_an_available_beer(name):
-    """Verify if a beer is available.
+def beer_exists(id):
+    """Verify beer exists
 
-    :username: a string object
+    :id: a string object
     :returns: True or False
 
     """
-    return models.Beer.objects(name=name).first() is None
+    return models.Beer.objects(id=id).first() is not None
 
 
 def get_beers(name=None):
@@ -44,11 +44,9 @@ def create_or_update_beer(name, description, abv,
 
     """
 
-    # Need to enforce uniqueness on the name of a beer.
-    # Can either do that in another function or here
-
-    # if is_an_available_beer(name) is False:
-    #     return {'error': 'The beer {!r} already exists.'.format(username)}
+    if beer_id:
+        if beer_exists(beer_id) is False:
+            return {'error': 'Beer not found'}
 
     try:
         query = {'id': beer_id} if beer_id else {'name': name}

@@ -3,16 +3,16 @@ from app.beers import controllers
 from tests import clear_db
 
 
-def test_is_an_available_beer(app):
+def test_beer_exists(app, mock_beer):
     clear_db()
-    assert controllers.is_an_available_beer(name='Samuel Adams') is True
+    beer = mock_beer()
+    assert controllers.beer_exists(id=beer.id) is True
 
 
-def test_is_an_available_beer_with_already_created_beer(app, mock_beer):
+def test_beer_does_not_exist(app):
     clear_db()
-    mock_beer(name='unavailable')
 
-    assert controllers.is_an_available_beer('unavailable') is False
+    assert controllers.beer_exists(id=str(ObjectId())) is False
 
 
 def test_get_beers_no_data(app):
