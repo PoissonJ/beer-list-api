@@ -1,18 +1,24 @@
 #!/bin/bash
-set -x
-if [ $TRAVIS_BRANCH == 'master' ] ; then
-    # Initialize a new git repo in _site, and push it to our server.
-    # cd _site
-    # git init
-        
-    git remote add deploy "travis@jonathan.me:/opt/beer-list-api"
+
+# print outputs and exit on first failure
+set -xe
+
+if [ $TRAVIS_BRANCH == "master" ] ; then
+
+    # setup ssh agent, git config and remote
+    eval "$(ssh-agent -s)"
+    ssh-add ~/.ssh/travis_rsa
+    git remote add deploy "travis@beer.list.api:/opt/beer-list-api"
     git config user.name "Travis CI"
-    git config user.email "jonathan.poisson777+travisCI@gmail.com"
-    
+    git config user.email "jonathan.poisson777+travis@gmail.com"
+
+    # commit compressed files and push it to remote
+    # rm -f .gitignore
+    # cp .travis/deployignore .gitignore
     git add .
-    git status
+    git status # debug
     git commit -m "Deploy"
-    git push --force deploy master
+    git push -f deploy HEAD:master
 else
-    echo "Not deploying, since this branch isn't master."
+    echo "No deploy script for branch '$TRAVIS_BRANCH'"
 fi
