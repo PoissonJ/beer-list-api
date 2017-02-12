@@ -7,6 +7,8 @@ if [ $TRAVIS_BRANCH == "master" ] ; then
 
     # setup ssh agent, git config and remote
     eval "$(ssh-agent -s)"
+    rm .git
+    git init
     # ssh-add ~/.ssh/travis_rsa
     git remote add deploy "travis@beer.list.api:/opt/beer-list-api"
     git config user.name "Travis CI"
