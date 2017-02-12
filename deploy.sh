@@ -10,7 +10,7 @@ if [ $TRAVIS_BRANCH == "master" ] ; then
     rm -rf .git
     git init
     # ssh-add ~/.ssh/travis_rsa
-    git remote add deploy "travis@beer.list.api:/opt/beer-list-api"
+    git remote add deploy "travis@45.55.181.86:/opt/beer-list-api"
     git config user.name "Travis CI"
     git config user.email "jonathan.poisson777+travis@gmail.com"
 
