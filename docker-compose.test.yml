@@ -1,7 +1,7 @@
 web:
   build: .
   dockerfile: Dockerfile.test
-  command: bash -c "py.test tests -vrsx --cov app --pylama && coveralls"
+  command: bash -c "py.test tests -vrsx --cov app --pylama"
   ports:
     - "5000:5000"
   # volumes:
