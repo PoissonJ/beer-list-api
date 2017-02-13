@@ -18,7 +18,6 @@ if [ $TRAVIS_BRANCH == "master" ] ; then
     # rm -f .gitignore
     # cp .travis/deployignore .gitignore
     git add .
-    git status # debug
     git commit -m "Deploy"
     git push -f deploy HEAD:master
 else

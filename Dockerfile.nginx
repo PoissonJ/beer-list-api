@@ -1,0 +1,8 @@
+# Set nginx base image
+FROM nginx
+
+# File Author / Maintainer
+MAINTAINER Jonathan Poisson
+
+# Copy custom configuration file
+COPY ./server/conf.d /etc/nginx/nginx.conf

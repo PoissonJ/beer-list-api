@@ -1,0 +1,22 @@
+server:
+  restart: always
+  build: .
+  dockerfile: Dockerfile.nginx
+  links: 
+    - beer:beer
+  ports:
+    - "80:80"
+beer:
+  build: .
+  restart: always
+  dockerfile: Dockerfile.prod
+  command: gunicorn manage:app -b :5000 --name app --log-level=debug --log-file=-
+  ports:
+    - "5000:5000"
+  links:
+    - db
+db:
+  image: mongo
+  restart: always
+  volumes:
+    - ./data/db:/data/db
