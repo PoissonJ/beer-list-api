@@ -50,7 +50,7 @@ def register_blueprints(app):
     # Simple page to get to admin
     @app.route('/')
     def index():
-        return '<h1 style="text-align: center"><a href="/admin/">Click me to get to Admin!</a></h1>'
+        return '<h1 style="text-align: center"><a href="/admin/">Click here to get to Admin!</a></h1>'
 
     @app.before_first_request
     def create_admin_user():
