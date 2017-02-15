@@ -23,7 +23,11 @@ manager.add_command(
 # run the app
 manager.add_command(
     "startserver",
-    Server(port=(os.getenv('FLASK_PORT') or 5000), host='0.0.0.0'))
+    Server(port=(os.getenv('FLASK_PORT') or 5000), host='0.0.0.0'), threaded=True)
+
+manager.add_command(
+    "startDevServer",
+    Server(port=(os.getenv('FLASK_PORT') or 5000), host='0.0.0.0'), threaded=True, processes=2)
 
 
 if __name__ == '__main__':

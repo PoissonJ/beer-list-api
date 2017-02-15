@@ -1,8 +1,10 @@
+from flask import request
+
 from flask_mongoengine import MongoEngine
 db = MongoEngine()
 
 
-from flask_jwt import JWT
+from flask_jwt import JWT, verify_jwt
 jwt = JWT()
 
 def create_admin(app):
@@ -16,10 +18,11 @@ def create_admin(app):
     # Customized admin views
     class UserView(ModelView):
         def is_accessible(self):
-            return True
+            request.headers['Authorization'] = 'bearer ' + request.cookies['auth']
+            return verify_jwt()
         def inaccessible_callback(self, name, **kwargs):
             # redirect to login page if user doesn't have access
-            return redirect(url_for('admin'))
+            return redirect(url_for('login'))
         can_create = False
         column_filters = ['username']
         column_exclude_list = ['password',]

@@ -10,9 +10,9 @@ beer:
   build: .
   restart: always
   dockerfile: Dockerfile.prod
-  command: gunicorn manage:app -b :5000 --name app --log-level=debug --log-file=-
-  ports:
-    - "5000:5000"
+  command: gunicorn -w 4 manage:app -b :5000 --name app --log-level=debug --log-file=-
+  # ports:
+  #   - "5000:5000"
   links:
     - db
 db:
