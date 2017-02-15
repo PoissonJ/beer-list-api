@@ -1,4 +1,5 @@
 import flask
+from flask import render_template
 from . import extensions, config, users, beers
 from .auth import jwt
 
@@ -51,6 +52,10 @@ def register_blueprints(app):
     @app.route('/')
     def index():
         return '<h1 style="text-align: center"><a href="/admin/">Click here to get to Admin!</a></h1>'
+
+    @app.route('/login')
+    def login():
+        return render_template('login.html')
 
     @app.before_first_request
     def create_admin_user():
