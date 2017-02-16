@@ -4,6 +4,7 @@ ADD requirements_test.txt /app/requirements_test.txt
 WORKDIR /app
 ENV PYTHONDONTWRITEBYTECODE True
 ENV FLASK_CONFIG testing
+ENV HASH_SALT testSAlt
 RUN pip install -r requirements.txt
 RUN pip install -r requirements_test.txt
 ADD . /app
