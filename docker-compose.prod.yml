@@ -12,7 +12,7 @@ beer:
   dockerfile: Dockerfile.prod
   command: gunicorn -w 4 manage:app -b :5000 --name app --log-level=debug --log-file=-
   env_file: 
-    - ../beer-variables.env
+    - beer-variables.env
   links:
     - db
 db:
