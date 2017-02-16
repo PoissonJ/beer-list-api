@@ -11,8 +11,8 @@ beer:
   restart: always
   dockerfile: Dockerfile.prod
   command: gunicorn -w 4 manage:app -b :5000 --name app --log-level=debug --log-file=-
-  environment: 
-    - HASH_SALT=${HASH_SALT}
+  env_file: 
+    - ../beer-variables.env
   links:
     - db
 db:
