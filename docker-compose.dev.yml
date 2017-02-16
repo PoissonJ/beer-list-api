@@ -1,7 +1,7 @@
 web:
   build: .
   dockerfile: Dockerfile.dev
-  command: python -u manage.py startDevServer
+  command: python -u manage.py startserver
   ports:
     - "5000:5000"
   volumes:

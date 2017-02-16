@@ -1,5 +1,5 @@
 import flask
-from flask import render_template
+from flask import render_template, redirect
 from . import extensions, config, users, beers, login
 from .auth import jwt
 
@@ -49,11 +49,10 @@ def register_blueprints(app):
     app.register_blueprint(beers.blueprint)
     app.register_blueprint(login.blueprint)
 
-    # Simple page to get to admin
+    # Redirect to admin
     @app.route('/')
     def index():
-        print 'hii'
-        return '<h1 style="text-align: center"><a href="/admin/">Click here to get to Admin!</a></h1>'
+        return redirect('/admin')
 
     @app.before_first_request
     def create_admin_user():

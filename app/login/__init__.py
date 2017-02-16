@@ -2,7 +2,6 @@ import flask_jwt
 from flask import Blueprint, request, render_template, redirect, url_for, current_app, make_response
 from app import helpers, users
 from wtforms import Form, TextField, PasswordField, validators
-from pprint import pprint
 
 
 blueprint = Blueprint('login', __name__, template_folder='../templates')
@@ -19,7 +18,6 @@ def login():
         username = form.username.data
         password = form.password.data
         print 'in post'
-        url = request.url_root + 'api/auth'
         payload = {'username': form.username.data, 'password': form.password.data}
 
         # Check for User
