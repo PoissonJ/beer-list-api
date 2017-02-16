@@ -1,10 +1,12 @@
+import os
+
 # database connection data
 DB_CONNECTION = {
-    "MONGODB_DB": "",
+    "MONGODB_DB": "beer-development",
     "MONGODB_USERNAME": "",
     "MONGODB_PASSWORD": "",
-    "MONGODB_HOST": "",
-    "MONGODB_PORT": None
+    "MONGODB_HOST": os.environ["DB_PORT_27017_TCP_ADDR"],
+    "MONGODB_PORT": 27017
 }
 
 # database uri
@@ -12,7 +14,7 @@ DATABASE_URI = ''
 
 # flask vars
 FLASK_VARS = {
-    'SECRET_KEY': '',
+    'DEBUG': False
 }
 
 # flask-jwt vars
@@ -23,4 +25,5 @@ FLASK_JWT_VARS = {
 # another third party libs...
 PASSLIB = {
     'HASH_ALGORITHM': 'SHA512',
+    'HASH_SALT': os.environ['HASH_SALT'],
 }
