@@ -1,4 +1,5 @@
 from flask import request
+from utils import logged_in
 
 from flask_mongoengine import MongoEngine
 db = MongoEngine()
@@ -10,19 +11,28 @@ jwt = JWT()
 def create_admin(app):
     from flask import redirect, url_for
     import flask_admin as admin
+    from flask_admin import expose, AdminIndexView
     from flask_admin.contrib.mongoengine import ModelView
     from models import User, Beer, BeerImage
 
-    admin = admin.Admin(app, 'Beer List Api')
+    class MyAdminIndexView(AdminIndexView):
+
+        @expose('/', methods=('GET', 'POST'))
+        def index(self):
+            if not logged_in():
+                return redirect(url_for('login.login'))
+            return super(MyAdminIndexView, self).index()
+
 
     # Customized admin views
     class UserView(ModelView):
         def is_accessible(self):
-            request.headers['Authorization'] = 'bearer ' + request.cookies['auth']
-            return verify_jwt()
+            if not logged_in(): return False
+            return True
         def inaccessible_callback(self, name, **kwargs):
             # redirect to login page if user doesn't have access
-            return redirect(url_for('login'))
+            return redirect(url_for('login.login'))
+
         can_create = False
         column_filters = ['username']
         column_exclude_list = ['password',]
@@ -33,11 +43,8 @@ def create_admin(app):
         def is_accessible(self):
             return True
         column_filters = ['name']
-        # form_ajax_refs = {
-        #     'image': {
-        #         'fields': ['name']
-        #     }
-        # }
+
+    admin = admin.Admin(app, 'Beer List Api', index_view=MyAdminIndexView())
 
     admin.add_view(UserView(User))
     admin.add_view(BeerView(Beer))
