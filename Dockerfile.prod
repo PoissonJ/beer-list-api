@@ -5,4 +5,3 @@ ENV FLASK_CONFIG production
 WORKDIR /app
 RUN pip install -r requirements.txt
 ADD . /app
-ADD ../beer-variables.env /app/beer-variables.env
