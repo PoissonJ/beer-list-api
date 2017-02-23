@@ -15,8 +15,15 @@ beer:
     - beer-variables.env
   links:
     - db
+mongodata:
+  image: mongo
+  volumes:
+    - /data/db
+  command: --break-mongo # Hack to kill the container
 db:
   image: mongo
   restart: always
-  volumes:
-    - ./data/db:/data/db
+  volumes_from:
+    - mongodata
+  ports:
+    - "27017:27017"
