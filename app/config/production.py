@@ -1,4 +1,5 @@
 import os
+import datetime
 
 # database connection data
 DB_CONNECTION = {
@@ -14,12 +15,14 @@ DATABASE_URI = ''
 
 # flask vars
 FLASK_VARS = {
-    'DEBUG': False
+    'DEBUG': False,
+    'SECRET_KEY': os.environ['SECRET_KEY'],
 }
 
 # flask-jwt vars
 FLASK_JWT_VARS = {
     'JWT_AUTH_URL_RULE': '/api/auth',
+    'JWT_EXPIRATION_DELTA': datetime.timedelta(days=1)
 }
 
 # another third party libs...
