@@ -14,8 +14,8 @@ before_install:
   -in travis_rsa.enc -out travis_rsa -d
 - chmod 600 travis_rsa
 - mv travis_rsa ~/.ssh/id_rsa
-- if [[ ${TRAVIS_BRANCH} == "master" ]] && [[ ${TRAVIS_PULL_REQUEST} == "false" ]]; then mkdir -p $(dirname ${DOCKER_CACHE_FILE}) ; docker save $(docker history -q ${DOCKER_REPOSITORY}:${TRAVIS_COMMIT} | grep -v '<missing>') | gzip > ${DOCKER_CACHE_FILE}; fi
 script:
 - bash test.sh
+- if [[ ${TRAVIS_BRANCH} == "master" ]] && [[ ${TRAVIS_PULL_REQUEST} == "false" ]]; then mkdir -p $(dirname ${DOCKER_CACHE_FILE}) ; docker save $(docker history -q ${DOCKER_REPOSITORY}:${TRAVIS_COMMIT} | grep -v '<missing>') | gzip > ${DOCKER_CACHE_FILE}; fi
 after_success:
 - bash deploy.sh
