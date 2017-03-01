@@ -2,6 +2,8 @@ web:
   build: .
   dockerfile: Dockerfile.dev
   command: python -u manage.py startserver
+  env_file: 
+    - beer-variables.env
   ports:
     - "5000:5000"
   volumes:
